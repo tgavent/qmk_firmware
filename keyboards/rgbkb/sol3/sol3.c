@@ -17,7 +17,7 @@ extern audio_config_t audio_config;
 void keyboard_post_init_kb(void) {
     touch_encoder_init();
     transaction_register_rpc(TOUCH_ENCODER_SYNC, touch_encoder_slave_sync);
-    transaction_register_rpc(RGB_MENU_SYNC, rgb_menu_slave_sync);
+    //transaction_register_rpc(RGB_MENU_SYNC, rgb_menu_slave_sync);
     keyboard_post_init_user();
 }
 
@@ -34,5 +34,5 @@ void eeconfig_init_kb(void) {
 
 void housekeeping_task_kb(void) {
     touch_encoder_update(TOUCH_ENCODER_SYNC);
-    rgb_menu_update(RGB_MENU_SYNC);
+    //rgb_menu_update(RGB_MENU_SYNC);
 }
