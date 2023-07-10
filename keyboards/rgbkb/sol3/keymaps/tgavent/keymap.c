@@ -51,7 +51,9 @@ enum sol_keycodes {
     SS_CUT,
     SS_COPY,
     SS_PASTE,
-    UNDO
+    UNDO,
+    ZOOM_IN,
+    ZOOM_OUT,
 };
 
 #define FN        MO(_FN)
@@ -65,9 +67,9 @@ enum sol_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
-        QK_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    UNDO,                     KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    SS_CUT,                   KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-        FN_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    SS_COPY,                  KC_RPRN, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        QK_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    ZOOM_IN,                  KC_EQL,  KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+        KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    ZOOM_OUT,                 KC_RBRC, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
+        FN_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    SS_COPY,                  SS_CUT, KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    SS_PASTE,                 UNDO,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_SENT,
         KC_LCTL,  KC_LGUI, KC_LALT, KC_LGUI, ADJUST,  KC_SPC,  KC_PGDN, KC_DEL, KC_ENT,  KC_PGUP, KC_SPC,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_RCTL,
 
@@ -79,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, AU_TOGG, MU_TOGG, MI_MOD,  _______, _______, _______,                    KC_F12,  RGB_MOD, _______, _______, _______, _______, _______,
         _______, KC_HOME, KC_UP,   KC_END,   QK_RBT, DB_TOGG, SS_HELLO,                    _______, _______, KC_7,    KC_8,    KC_9,    KC_PLUS, KC_PGUP,
         _______, KC_LEFT, KC_DOWN, KC_RGHT, MENU_BTN, _______, RGB_HUI,                    _______, _______, KC_4,    KC_5,    KC_6,    KC_PCMM, KC_ENT,
-        _______, RGB_TOG, RGB_VAD, RGB_VAI, RGB_SAD, RGB_SAI, RGB_HUD,                    _______, _______, KC_3,    KC_2,    KC_1,    KC_PEQL, FN,
+        _______, RGB_TOG, RGB_VAD, RGB_VAI, RGB_SAD, RGB_SAI, RGB_HUD,                    _______, _______, KC_1,    KC_2,    KC_3,    KC_PEQL, FN,
         _______, CK_TOGG,   CK_UP, CK_DOWN,  ADJUST, RGB_TOG, _______,  QK_BOOT, _______, _______, _______, KC_0,    KC_0,    KC_DOT,  KC_ENT,  QWERTY,
 
         _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
@@ -125,6 +127,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case UNDO:
             if(record->event.pressed) {
                 IS_MAC_OS ? SEND_STRING(SS_LCMD("z")) : SEND_STRING(SS_LCTL("z"));
+            }
+            return false;
+        case ZOOM_OUT:
+            if(record->event.pressed) {
+                IS_MAC_OS ? SEND_STRING(SS_LCMD("-")) : SEND_STRING(SS_LWIN("-"));
+            }
+            return false;
+        case ZOOM_IN:
+            if(record->event.pressed) {
+                IS_MAC_OS ? SEND_STRING(SS_LCMD("+")) : SEND_STRING(SS_LWIN("+"));
             }
             return false;
     }
